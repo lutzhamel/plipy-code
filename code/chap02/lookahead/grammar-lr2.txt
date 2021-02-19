@@ -1,0 +1,6 @@
+[('exp',['term','+','var']),
+ ('exp',['var']),
+ ('term',['exp','+','var']),
+ ('term',['var']),
+ ('var',['y']),
+ ('var',['z'])]
