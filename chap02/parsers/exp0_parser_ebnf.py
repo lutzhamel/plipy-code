@@ -8,7 +8,7 @@ sLL(1) grammar written in EBNF for Exp0 with lookahead sets:
 
     exp : {+} + exp exp
         | {-} - exp exp
-        | {()} ( exp )
+        | {(} ( exp )
         | {x,y,z} var
         | {0,1,2,3,4,5,6,7,8,9} num
 
@@ -50,7 +50,8 @@ def stmt(stream):
         stream.match(';')
         return
     else:
-        raise SyntaxError('unexpected symbol {} while parsing'.format(sym))
+        raise SyntaxError('unexpected symbol {} while parsing'
+                          .format(sym))
 
 def exp(stream):
     sym = stream.pointer()
@@ -76,7 +77,8 @@ def exp(stream):
         num(stream)
         return
     else:
-        raise SyntaxError('unexpected symbol {} while parsing'.format(sym))
+        raise SyntaxError('unexpected symbol {} while parsing'
+                          .format(sym))
 
 def var(stream):
     sym = stream.pointer()
@@ -90,7 +92,8 @@ def var(stream):
         stream.match('z')
         return
     else:
-        raise SyntaxError('unexpected symbol {} while parsing'.format(sym))
+        raise SyntaxError('unexpected symbol {} while parsing'
+                          .format(sym))
 
 def num(stream):
     sym = stream.pointer()
@@ -125,17 +128,19 @@ def num(stream):
         stream.match('9')
         return
     else:
-        raise SyntaxError('unexpected symbol {} while parsing'.format(sym))
+        raise SyntaxError('unexpected symbol {} while parsing'
+                          .format(sym))
 
 def parse():
     from inputstream import InputStream
     stream = InputStream() # reads from stdin
     try:
-        stmtlist(stream) # call the parser function for start symbol
+        stmtlist(stream) # start symbol
         if stream.end_of_file():
             print("parse successful")
         else:
-            raise SyntaxError("bad syntax at {}".format(stream.pointer()))
+            raise SyntaxError("bad syntax at {}"
+                              .format(stream.pointer()))
     except Exception as e:
         print("error: " + str(e))
 
