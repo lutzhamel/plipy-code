@@ -1,0 +1,9 @@
+float pow(float b,int p) {
+   if (p == 0)
+      return 1.0;
+   else
+      return b*pow(b,p-1);
+}
+
+float v = pow(2.0,2.0)
+

@@ -1,0 +1,6 @@
+      store x 10;
+      jumpt (== x 10) L1;
+      print 0;
+      stop;
+L1:   print 1;
+      stop;

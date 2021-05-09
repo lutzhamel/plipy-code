@@ -1,0 +1,7 @@
+	store R$x 1 ;
+	store R$$x 2 ;
+	print R$$x ;
+	store R$$x 3 ;
+	print R$$x ;
+	print R$x ;
+	stop ;

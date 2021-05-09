@@ -1,0 +1,1 @@
+get x; while (1 =< x) { put x; x = x + - 1; i = x }

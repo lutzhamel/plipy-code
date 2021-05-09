@@ -1,0 +1,5 @@
+declare x = 2;
+put x;
+declare y;
+put y;
+put x/y;

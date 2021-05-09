@@ -1,0 +1,2 @@
+void f(int i) put i;
+float x = f(1) + 1.0;

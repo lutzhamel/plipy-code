@@ -1,0 +1,4 @@
+x = 2;
+put x;
+put y;
+put x/y;

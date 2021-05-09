@@ -1,0 +1,31 @@
+put "-- the bubble sort --";
+
+void bubble(int[8] a, int items)
+{
+  int done = 0;
+  while (done == 0) {
+     int i = 0;
+     int swapped = 0;
+
+     while (i =< items-2) {
+       int t;
+       if (a[i+1] =< a[i]) {
+          t = a[i];
+          a[i] = a[i+1];
+          a[i+1] = t;
+          swapped = 1;
+        }
+        i = i+1;
+     }
+
+     if (swapped == 0)
+         done = 1;
+  }
+}
+
+int[8] a = {6,5,3,1,8,7,2,4};
+put "unsorted array:";
+put a;
+bubble(a, 8); // arrays are passed in by reference!
+put "sorted array:";
+put a;

@@ -1,0 +1,16 @@
+float[3] double(float[3] a, int items)
+{
+  float[3] b;
+  int i = 0;
+  while (i =< items-1) {
+    b[i] = 2 * a[i];
+    i = i+1;
+  }
+  return b;
+}
+
+float[3] q = {1.0, 2.0, 3.0};
+float[3] r;
+
+r = double(q,3);
+put r;

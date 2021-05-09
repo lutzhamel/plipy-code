@@ -1,0 +1,7 @@
+# print a sequence
+   input x;
+L1:
+   print x;
+   store x (- x 1);
+   jumpt x L1;
+   stop;

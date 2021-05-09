@@ -1,0 +1,8 @@
+declare x = 1;
+{
+    declare y = 2;
+    {
+        declare z = 3;
+        put x + y + z;
+    }
+}

@@ -1,0 +1,3 @@
+declare inc (x) return x+1;
+declare y = inc(1);
+put y;

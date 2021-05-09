@@ -1,0 +1,20 @@
+// generate the odd numbers between 1 and 10
+
+declare step = 2;
+
+declare inc(k)
+{
+     return k+step; // step is not function-local
+}
+
+declare seq(n)
+{
+     declare i = 1;
+
+     while(i=<n) {
+        put(i);
+        i = inc(i)
+     }
+}
+
+seq(10);

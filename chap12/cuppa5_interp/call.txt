@@ -1,0 +1,11 @@
+void f(int[3] a, int items)
+{
+  int i = 0;
+  while (i =< items-1) {
+    put "item @"+i+" = "+a[i];
+    i = i+1;
+  }
+}
+
+int[3] k = {1,2,3};
+f(k, 3);

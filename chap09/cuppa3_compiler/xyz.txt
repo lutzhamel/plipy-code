@@ -1,0 +1,5 @@
+declare w;
+declare x;
+declare y;
+declare z;
+w = x * y + z;

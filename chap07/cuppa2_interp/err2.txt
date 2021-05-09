@@ -1,0 +1,7 @@
+declare x = 1;
+put x;
+{
+    declare y = 2;
+    put y;
+}
+put x+y;

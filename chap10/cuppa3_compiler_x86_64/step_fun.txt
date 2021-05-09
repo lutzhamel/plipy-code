@@ -1,0 +1,6 @@
+// step function
+declare x;
+declare y;
+get x;
+y = 0 =< x;
+put y;

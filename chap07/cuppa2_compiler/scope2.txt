@@ -1,0 +1,10 @@
+declare x = 1;
+put x;
+{
+    x = 2;
+}
+put x;
+{
+    x = 3;
+}
+put x;

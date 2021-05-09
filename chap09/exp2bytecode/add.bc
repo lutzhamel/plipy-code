@@ -1,0 +1,15 @@
+      store x 3;
+      store y 2;
+      pushv y;		# push second argumentonto stack
+      pushv x;		# push first argumentonto stack
+      call add;		# push current address onto stack and jump to function
+      popv;		# pop first argument
+      popv;		# pop second argument
+      print "The sum x+y is " %rvx;
+      stop;
+
+add:
+     store a %tsx[-1];	# get value of first argument
+     store b %tsx[-2];	# get value of second argument
+     store %rvx + a b;	# store the sum in the ‘return value register’
+     return;	

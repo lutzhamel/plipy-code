@@ -1,0 +1,7 @@
+int[] f(int[] a)
+{
+ return a;
+}
+
+int[3] c = {1,2,3};
+f(c)[1] = f(c)[1];

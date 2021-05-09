@@ -1,0 +1,25 @@
+	jump L0 ;
+# ####################################
+# Start Function inc
+# ####################################
+inc:
+	pushf 2 ;
+	store %tsx[0] %tsx[-3] ;
+	store %tsx[-1] (+ %tsx[0] 1) ;
+	store %rvx %tsx[-1] ;
+	popf 2 ;
+	return ;
+	popf 2 ;
+	return ;
+# ####################################
+# End Function inc
+# ####################################
+L0:
+	noop ;
+	pushv 1 ;
+	call inc ;
+	popv ;
+	store t$0 %rvx ;
+	store t$1 t$0 ;
+	print t$1 ;
+	stop ;

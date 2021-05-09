@@ -1,0 +1,13 @@
+void double(float[3] a, int items)
+{
+  int i = 0;
+  while (i =< items-1) {
+    a[i] = 2 * a[i];
+    i = i+1;
+  }
+}
+
+float[3] q = {1.0, 2.0, 3.0};
+
+double(q,3);
+put q;

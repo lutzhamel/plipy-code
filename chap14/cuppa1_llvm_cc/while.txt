@@ -1,0 +1,8 @@
+x = 5;
+
+//while (0 =<  x) {
+while ( x) {
+    put x;
+    x = x - 1;
+}
+

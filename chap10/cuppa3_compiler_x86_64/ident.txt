@@ -1,0 +1,2 @@
+declare ident(x) return x;
+put ident(1);

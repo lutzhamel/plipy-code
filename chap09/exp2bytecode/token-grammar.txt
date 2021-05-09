@@ -1,0 +1,43 @@
+instr_list : (\{NAME,PRINT,STORE,INPUT,JUMPT,JUMPF,JUMP,CALL,RETURN,PUSHV,POPV,PUSHF,POPF,STOP,NOOP\} labeled_instr)*
+
+labeled_instr : \{NAME\} label_def instr
+              | \{PRINT,STORE,INPUT,JUMPT,JUMPF,JUMP,CALL,RETURN,PUSHV,POPV,PUSHF,POPF,STOP,NOOP\} instr
+
+label_def : \{NAME\} label COLON
+
+instr : \{PRINT\} PRINT (\{STRING\} STRING)? exp SEMI
+      | \{INPUT\} INPUT (\{STRING\} STRING)? storable SEMI
+      | \{STORE\} STORE storable exp SEMI
+      | \{JUMPT\} JUMPT exp label SEMI
+      | \{JUMPF\} JUMPF exp label SEMI
+      | \{JUMP\} JUMP label SEMI
+      | \{CALL\} CALL label SEMI
+      | \{RETURN\} RETURN SEMI
+      | \{PUSHV\} PUSHV exp SEMI
+      | \{POPV\} POPV (\{NAME,RVX,TSX\} storable)? SEMI
+      | \{PUSHF\} PUSHF size SEMI
+      | \{POPF\} POPF size SEMI
+      | \{STOP\} STOP SEMI
+      | \{NOOP\} NOOP SEMI
+
+exp : \{ADD\} ADD exp exp
+    | \{SUB\} SUB exp (\{ADD,SUB,MUL,DIV,NOT,EQ,LE,LPAREN,NAME,RVX,TSX,NUMBER\} exp)?
+    | \{MUL\} MUL exp exp
+    | \{DIV\} DIV exp exp
+    | \{NOT\} NOT exp
+    | \{EQ\} EQ exp exp
+    | \{LE\} LE exp exp
+    | \{LPAREN\} LPAREN exp RPAREN
+    | \{NAME,RVX,TSX\} storable
+    | \{NUMBER\} num
+
+storable : \{NAME\} var
+         | \{RVX\} RVX
+         | \{TSX\} TSX (\{LSQUARE\} offset)?
+
+offset : \{LSQUARE\} LSQUARE exp RSQUARE
+size  : \{ADD,SUB,MUL,DIV,NOT,EQ,LE,LPAREN,NAME,RVX,TSX,NUMBER\} exp
+
+label : \{NAME\} NAME
+var : \{NAME\} NAME
+num : \{NUMBER\} NUMBER

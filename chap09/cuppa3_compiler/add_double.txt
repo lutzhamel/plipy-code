@@ -1,0 +1,10 @@
+declare x;
+declare add(a,b)
+{
+    declare acc = 0;
+    acc = acc + a;
+    acc = acc + b;
+    return acc;
+}
+
+x = add(2,3)*2;

@@ -1,0 +1,2 @@
+// infinite loop doing nothing
+while (1) {}

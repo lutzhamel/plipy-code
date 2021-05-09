@@ -1,0 +1,33 @@
+##################################################
+# main script
+##################################################
+# declare two global variables
+      store x 3;
+      store y 2;
+# set up a call as add(x,y) and jump to function
+      pushv y;
+      pushv x;
+      call add;
+# clean up after the call
+      popv;
+      popv;
+# print out the value returned from the function
+      print "The sum x+y is " %rvx;
+      stop;
+
+##################################################
+# function add
+##################################################
+add:
+# push frame with space for accumulator
+      pushf 1;
+# init accumulator and add arguments
+      store %tsx[0] 0;
+      store %tsx[0] + %tsx[0] %tsx[-2];
+      store %tsx[0] + %tsx[0] %tsx[-3];
+# move accumulator value to return value register,
+# pop frame, return to caller
+      store %rvx %tsx[0];
+      popf 1;
+      return;
+

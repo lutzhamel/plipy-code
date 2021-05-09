@@ -1,0 +1,3 @@
+get x
+x = x + 1
+put x

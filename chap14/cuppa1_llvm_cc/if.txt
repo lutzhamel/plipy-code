@@ -1,0 +1,5 @@
+get x;
+if (x =< 0 )
+   put -1;
+else
+  put 1;

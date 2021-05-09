@@ -1,0 +1,32 @@
+##################################################
+# main script
+##################################################
+# declare two global variables
+      store x 3;
+      store y 2;
+# set up a call as add(x,y)
+      pushv y;		# push second argument
+      pushv x;		# push first argument
+# the call instruction:
+# (1) push return address onto stack
+# (2) jump to function
+      call add;
+# clean up after the call
+      popv;		# pop second argument
+      popv;		# pop first argument
+# print out the value returned from the function
+      print "The sum x+y is " %rvx;
+      stop;
+
+##################################################
+# function add
+##################################################
+add:
+# get the arguments for the function off the stack
+# and store the result of the addition in
+# the return value register
+     store %rvx + %tsx[-1] %tsx[-2];
+# the return instruction pops the return
+# address off the stack and jumps to it
+     return;
+

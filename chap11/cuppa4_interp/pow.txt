@@ -1,0 +1,13 @@
+float v;
+int p;
+
+float pow(float b,int e) {
+   if (e == 0)
+      return 1.0;
+   else
+      return b*pow(b,e-1);
+}
+
+get v;
+get p;
+put v+" to the power of "+p+" is "+pow(v,p);

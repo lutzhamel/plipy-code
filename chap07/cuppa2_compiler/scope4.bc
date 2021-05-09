@@ -1,0 +1,5 @@
+	store R$x 1 ;
+	store R$$y 2 ;
+	store R$$$z 3 ;
+	print + + R$x R$$y R$$$z ;
+	stop ;

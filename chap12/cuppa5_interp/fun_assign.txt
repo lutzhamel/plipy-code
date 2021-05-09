@@ -1,0 +1,8 @@
+int[3] ident(int[3] a)
+{
+    return a;
+}
+
+int[3] c = {1,2,3};
+ident(c)[1] = 0;
+put c;

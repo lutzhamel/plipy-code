@@ -1,0 +1,5 @@
+get x
+r = x - 2*(x/2) // integer division!
+if (not r)
+  if (x =< 10)
+    put x

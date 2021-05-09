@@ -1,0 +1,3 @@
+declare inc(k) return k+1;
+
+put 3*2+inc(5);

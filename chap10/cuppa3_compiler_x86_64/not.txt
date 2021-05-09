@@ -1,0 +1,2 @@
+declare y = 0;
+declare x = not y;

@@ -1,0 +1,5 @@
+declare x;
+declare y;
+get x;
+y = x =< 5;
+put y;

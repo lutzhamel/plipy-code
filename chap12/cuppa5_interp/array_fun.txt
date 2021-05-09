@@ -1,0 +1,20 @@
+int[3] f(int[3] a, int i)
+{
+    int t;
+    t = a[i];
+    a[i] = a[0];
+    a[0] = t;
+    return a;
+}
+
+int[3] ident(int[3] a) return a;
+
+int[3] c = {1,2,3};
+int[3] b;
+put c;
+b = f(c,2);
+put c;
+put b;
+ident(c)[1] = ident(c)[0];
+put c;
+

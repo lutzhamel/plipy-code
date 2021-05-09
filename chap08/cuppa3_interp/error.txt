@@ -1,0 +1,5 @@
+// this program has a semantic error
+// and should not execute properly
+
+declare z(i) return i+1;
+put z+1;

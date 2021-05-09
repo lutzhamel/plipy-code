@@ -1,0 +1,50 @@
+	store t$0 2 ;
+	jump L0 ;
+# ####################################
+# Start Function inc
+# ####################################
+inc:
+	pushf 2 ;
+	store %tsx[0] %tsx[-3] ;
+	store %tsx[-1] (+ %tsx[0] t$0) ;
+	store %rvx %tsx[-1] ;
+	popf 2 ;
+	return ;
+	popf 2 ;
+	return ;
+# ####################################
+# End Function inc
+# ####################################
+L0:
+	noop ;
+	jump L1 ;
+# ####################################
+# Start Function seq
+# ####################################
+seq:
+	pushf 4 ;
+	store %tsx[0] %tsx[-5] ;
+	store %tsx[-1] 1 ;
+L2:
+	store %tsx[-2] (=< %tsx[-1] %tsx[0]) ;
+	jumpf %tsx[-2] L3 ;
+	print %tsx[-1] ;
+	pushv %tsx[-1] ;
+	call inc ;
+	popv ;
+	store %tsx[-3] %rvx ;
+	store %tsx[-1] %tsx[-3] ;
+	jump L2 ;
+L3:
+	noop ;
+	popf 4 ;
+	return ;
+# ####################################
+# End Function seq
+# ####################################
+L1:
+	noop ;
+	pushv 10 ;
+	call seq ;
+	popv ;
+	stop ;

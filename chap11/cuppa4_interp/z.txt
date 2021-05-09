@@ -1,0 +1,3 @@
+int z(int x) return x;
+int y = z + 1;  // semantic error
+put y;

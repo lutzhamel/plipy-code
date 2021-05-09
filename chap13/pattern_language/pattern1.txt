@@ -1,0 +1,4 @@
+x = ((()))    # init x
+x             # print x -> ((()))
+(y) = x       # pattern match (y) to term in x
+y             # print y -> (())

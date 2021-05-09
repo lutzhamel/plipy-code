@@ -1,0 +1,31 @@
+#!/bin/bash -x
+
+# link
+# this is a shell script for the ld commandline
+# inspired by the stackoverflow.com post:
+#   https://stackoverflow.com/questions/6656317
+#
+# (c) Lutz Hamel, University of Rhode Island
+
+if [ -z $1 ]
+then
+    echo "no object file given"
+    exit
+fi
+
+# Note: we have to use a dynamic linker because
+# on Ubuntu 20.04 the standard C library defining
+# things like printf and scanf is a shareable library
+
+ld  \
+    -dynamic-linker /lib64/ld-linux-x86-64.so.2 \
+    /usr/lib/x86_64-linux-gnu/crt1.o \
+    /usr/lib/x86_64-linux-gnu/crti.o \
+    $1 \
+    /usr/lib/x86_64-linux-gnu/libc.so \
+    /usr/lib/x86_64-linux-gnu/crtn.o
+
+
+
+
+

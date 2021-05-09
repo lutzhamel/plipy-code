@@ -1,0 +1,19 @@
+declare seqsum(n) 
+{
+
+    declare add(a,b) return a+b;
+    declare inc(x) return x+1;
+
+    declare i = 1;
+    declare sum = 0;
+
+    while (i =< n) 
+    {
+        sum = add(sum,i);
+        i = inc(i);
+    }
+
+    return sum;
+}
+
+put seqsum(10);

@@ -1,0 +1,8 @@
+int i = 1;
+while (i =< 1000000) {
+      if (i == 999999) {
+      	 put i;
+	 int s = "blahblah" + 1.0;
+      }
+      i = i+1;
+}

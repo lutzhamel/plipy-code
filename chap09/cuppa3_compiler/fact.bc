@@ -1,0 +1,40 @@
+	jump L0 ;
+# ####################################
+# Start Function fact
+# ####################################
+fact:
+	pushf 5 ;
+	store %tsx[0] %tsx[-6] ;
+	store %tsx[-1] (=< %tsx[0] 1) ;
+	jumpf %tsx[-1] L1 ;
+	store %rvx 1 ;
+	popf 5 ;
+	return ;
+	jump L2 ;
+L1:
+	store %tsx[-2] (- %tsx[0] 1) ;
+	pushv %tsx[-2] ;
+	call fact ;
+	popv ;
+	store %tsx[-3] %rvx ;
+	store %tsx[-4] (* %tsx[0] %tsx[-3]) ;
+	store %rvx %tsx[-4] ;
+	popf 5 ;
+	return ;
+L2:
+	noop ;
+	popf 5 ;
+	return ;
+# ####################################
+# End Function fact
+# ####################################
+L0:
+	noop ;
+	store t$0 0 ;
+	input t$0 ;
+	pushv t$0 ;
+	call fact ;
+	popv ;
+	store t$1 %rvx ;
+	print t$1 ;
+	stop ;
