@@ -8,9 +8,9 @@ class InputStream:
             char_stream = stdin.read()
         # turn char stream into a list of characters
         # ignoring any kind of white space
-        clean_stream = char_stream.replace(' ','')
-                                  .replace('\t','')
-                                  .replace('\n','')
+        clean_stream = char_stream.replace(' ','') \
+                                  .replace('\t','') \
+                                  .replace('\n','') 
         self.stream = [c for c in clean_stream]
         self.stream.append('\eof')
         self.stream_ix = 0
@@ -25,7 +25,7 @@ class InputStream:
 
     def match(self, sym):
         if sym == self.pointer():
-            s = self.point()
+            s = self.pointer()
             self.next()
             return s
         else:
