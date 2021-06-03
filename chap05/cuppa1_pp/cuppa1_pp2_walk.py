@@ -1,5 +1,4 @@
 from cuppa1_state import state
-from assertmatch import assert_match
 
 # pp2: this is the second pass of the Cuppa1 pretty printer that
 # generates the output together with the warning
@@ -12,7 +11,6 @@ indent_level = 0
 def stmtlist(node):
 
     (STMTLIST, lst) = node
-    assert_match(STMTLIST, 'STMTLIST')
 
     code = ''
     for stmt in lst:
@@ -22,15 +20,12 @@ def stmtlist(node):
 #########################################################################
 def nil(node):
     (NIL,) = node
-    assert_match(NIL, 'NIL')
     return ''
 
 #########################################################################
 def assign_stmt(node):
 
     (ASSIGN, (ID, name), exp) = node
-    assert_match(ASSIGN, 'ASSIGN')
-    assert_match(ID, 'ID')
 
     exp_code = walk(exp)
     code = indent() + name + ' = ' + exp_code
@@ -43,20 +38,18 @@ def assign_stmt(node):
 def get_stmt(node):
 
     (GET, (ID, name)) = node
-    assert_match(GET, 'GET')
-    assert_match(ID, 'ID')
 
     code = indent() + 'get ' + name
     if state.symbol_table[name] == 'Defined':
         code += ' // *** '+ name + ' is not used ***'
     code += '\n'
+
     return code
 
 #########################################################################
 def put_stmt(node):
 
     (PUT, exp) = node
-    assert_match(PUT, 'PUT')
 
     exp_code = walk(exp)
     code = indent() + 'put ' + exp_code + '\n'
@@ -67,7 +60,6 @@ def while_stmt(node):
     global indent_level
 
     (WHILE, cond, body) = node
-    assert_match(WHILE, 'WHILE')
 
     cond_code = walk(cond)
 
@@ -83,9 +75,7 @@ def while_stmt(node):
 def if_stmt(node):
     global indent_level
 
-    # try the if-then-else pattern
     (IF, cond, s1, s2) = node
-    assert_match(IF, 'IF')
 
     cond_code = walk(cond)
 
@@ -105,7 +95,6 @@ def block_stmt(node):
     adjust_level = False
 
     (BLOCK, s) = node
-    assert_match(BLOCK, 'BLOCK')
 
     if indent_level > 0:
         indent_level -= 1
@@ -126,8 +115,6 @@ def block_stmt(node):
 def binop_exp(node):
 
     (OP, c1, c2) = node
-    if OP not in ['PLUS', 'MINUS', 'MUL', 'DIV', 'EQ', 'LE']:
-        raise ValueError("pattern match failed on " + OP)
 
     lcode = walk(c1)
     rcode = walk(c2)
@@ -144,6 +131,8 @@ def binop_exp(node):
         code = lcode + ' == ' + rcode
     elif OP == 'LE':
         code = lcode + ' =< ' + rcode
+    else:
+        raise ValueError("unknown OP")
 
     return code
 
@@ -151,7 +140,6 @@ def binop_exp(node):
 def integer_exp(node):
 
     (INTEGER, value) = node
-    assert_match(INTEGER, 'INTEGER')
 
     return str(value)
 
@@ -159,7 +147,6 @@ def integer_exp(node):
 def id_exp(node):
 
     (ID, name) = node
-    assert_match(ID, 'ID')
 
     return name
 
@@ -167,7 +154,6 @@ def id_exp(node):
 def uminus_exp(node):
 
     (UMINUS, e) = node
-    assert_match(UMINUS, 'UMINUS')
 
     code = walk(e)
 
@@ -177,7 +163,6 @@ def uminus_exp(node):
 def not_exp(node):
 
     (NOT, e) = node
-    assert_match(NOT, 'not')
 
     code = walk(e)
 
@@ -187,7 +172,6 @@ def not_exp(node):
 def paren_exp(node):
 
     (PAREN, exp) = node
-    assert_match(PAREN, 'paren')
 
     exp_code = walk(exp)
 

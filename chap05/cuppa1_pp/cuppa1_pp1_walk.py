@@ -1,5 +1,4 @@
 from cuppa1_state import state
-from assertmatch import assert_match
 
 # pp1: this is the first pass of the Cuppa1 pretty printer that marks
 # variables in one of three states:
@@ -13,7 +12,6 @@ from assertmatch import assert_match
 def stmtlist(node):
 
     (STMTLIST, lst) = node
-    assert_match(STMTLIST, 'STMTLIST')
 
     for stmt in lst:
         walk(stmt)
@@ -24,8 +22,6 @@ def stmtlist(node):
 def assign_stmt(node):
 
     (ASSIGN, (ID, name), exp) = node
-    assert_match(ASSIGN, 'ASSIGN')
-    assert_match(ID, 'ID')
 
     state.symbol_table[name] = 'Defined'
     walk(exp)
@@ -36,8 +32,6 @@ def assign_stmt(node):
 def get_stmt(node):
 
     (GET, (ID, name)) = node
-    assert_match(GET, 'GET')
-    assert_match(ID, 'ID')
 
     state.symbol_table[name] = 'Defined'
 
@@ -47,7 +41,6 @@ def get_stmt(node):
 def put_stmt(node):
 
     (PUT, exp) = node
-    assert_match(PUT, 'PUT')
 
     walk(exp)
 
@@ -57,7 +50,6 @@ def put_stmt(node):
 def while_stmt(node):
 
     (WHILE, cond, body) = node
-    assert_match(WHILE, 'WHILE')
 
     walk(cond)
     walk(body)
@@ -68,7 +60,6 @@ def while_stmt(node):
 def if_stmt(node):
 
     (IF, cond, s1, s2) = node
-    assert_match(IF, 'IF')
 
     walk(cond)
     walk(s1)
@@ -80,7 +71,6 @@ def if_stmt(node):
 def block_stmt(node):
 
     (BLOCK, stmt_list) = node
-    assert_match(BLOCK, 'BLOCK')
 
     walk(stmt_list)
 
@@ -90,8 +80,6 @@ def block_stmt(node):
 def binop_exp(node):
 
     (OP, c1, c2) = node
-    if OP not in ['PLUS', 'MINUS', 'MUL', 'DIV', 'EQ', 'LE']:
-        raise ValueError("pattern match failed on " + OP)
 
     walk(c1)
     walk(c2)
@@ -102,7 +90,6 @@ def binop_exp(node):
 def id_exp(node):
 
     (ID, name) = node
-    assert_match(ID, 'ID')
 
     # we found a use scenario of a variable
     state.symbol_table[name] = 'Used'
@@ -113,7 +100,6 @@ def id_exp(node):
 def uminus_exp(node):
 
     (UMINUS, e) = node
-    assert_match(UMINUS, 'UMINUS')
 
     walk(e)
 
@@ -123,7 +109,6 @@ def uminus_exp(node):
 def not_exp(node):
 
     (NOT, e) = node
-    assert_match(NOT, 'NOT')
 
     walk(e)
 
@@ -133,7 +118,6 @@ def not_exp(node):
 def paren_exp(node):
 
     (PAREN, exp) = node
-    assert_match(PAREN, 'PAREN')
 
     walk(exp)
 

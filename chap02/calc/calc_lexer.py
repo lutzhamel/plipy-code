@@ -26,11 +26,11 @@ class Token:
     def __str__(self):
         return 'Token({},{})'.format(self.type,self.value)
 
-def tokenize(code):
+def tokenize(stream):
     tokens = []
     re_list = ['(?P<{}>{})'.format(type,re) for (type,re) in token_specs]
     combined_re = '|'.join(re_list)
-    match_object_list = list(re.finditer(combined_re, code))
+    match_object_list = list(re.finditer(combined_re, stream))
     for mo in match_object_list:
         type = mo.lastgroup
         value = mo.group()
