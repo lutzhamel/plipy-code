@@ -6,14 +6,11 @@ a new node because we are not allowed to update tuples in Python
 and we are not sure if the tree below us has changed.
 '''
 
-from assertmatch import assert_match
-
 # node functions
 #########################################################################
 def stmtlst(node):
 
     (STMTLIST, lst) = node
-    assert_match(STMTLIST, 'STMTLIST')
 
     newlst = []
     for stmt in lst:
@@ -24,7 +21,6 @@ def stmtlst(node):
 def nil(node):
 
     (NIL,) = node
-    assert_match(NIL, 'NIL')
 
     return node # nil nodes are immutable
 
@@ -32,7 +28,6 @@ def nil(node):
 def assign_stmt(node):
 
     (ASSIGN, name_tree, exp) = node
-    assert_match(ASSIGN, 'ASSIGN')
 
     newexp = walk(exp)
 
@@ -42,7 +37,6 @@ def assign_stmt(node):
 def get_stmt(node):
 
     (GET, name_tree) = node
-    assert_match(GET, 'GET')
 
     return node # nothing to be rewritten in get nodes
 
@@ -50,7 +44,6 @@ def get_stmt(node):
 def put_stmt(node):
 
     (PUT, exp) = node
-    assert_match(PUT, 'PUT')
 
     newexp = walk(exp)
 
@@ -60,7 +53,6 @@ def put_stmt(node):
 def while_stmt(node):
 
     (WHILE, cond, body) = node
-    assert_match(WHILE, 'WHILE')
 
     newcond = walk(cond)
     newbody = walk(body)
@@ -71,7 +63,6 @@ def while_stmt(node):
 def if_stmt(node):
 
         (IF, cond, s1, s2) = node
-        assert_match(IF, 'IF')
 
         newcond = walk(cond)
         news1 = walk(s1)
@@ -83,7 +74,6 @@ def if_stmt(node):
 def block_stmt(node):
 
     (BLOCK, stmtlst) = node
-    assert_match(BLOCK, 'BLOCK')
 
     newstmtlst = walk(stmtlst)
 
@@ -95,7 +85,6 @@ def block_stmt(node):
 def plus_exp(node):
 
     (PLUS, c1, c2) = node
-    assert_match(PLUS, 'PLUS')
 
     newc1 = walk(c1)
     newc2 = walk(c2)
@@ -110,7 +99,6 @@ def plus_exp(node):
 def minus_exp(node):
 
     (MINUS, c1, c2) = node
-    assert_match(MINUS, 'MINUS')
 
     newc1 = walk(c1)
     newc2 = walk(c2)
@@ -125,7 +113,6 @@ def minus_exp(node):
 def mult_exp(node):
 
     (MUL, c1, c2) = node
-    assert_match(MUL, 'MUL')
 
     newc1 = walk(c1)
     newc2 = walk(c2)
@@ -140,7 +127,6 @@ def mult_exp(node):
 def div_exp(node):
 
     (DIV, c1, c2) = node
-    assert_match(DIV, 'DIV')
 
     newc1 = walk(c1)
     newc2 = walk(c2)
@@ -155,7 +141,6 @@ def div_exp(node):
 def eq_exp(node):
 
     (EQ, c1, c2) = node
-    assert_match(EQ, 'EQ')
 
     newc1 = walk(c1)
     newc2 = walk(c2)
@@ -170,7 +155,6 @@ def eq_exp(node):
 def le_exp(node):
 
     (LE, c1, c2) = node
-    assert_match(LE, 'LE')
 
     newc1 = walk(c1)
     newc2 = walk(c2)
@@ -185,7 +169,6 @@ def le_exp(node):
 def integer_exp(node):
 
     (INTEGER, value) = node
-    assert_match(INTEGER, 'INTEGER')
 
     return node # integer nodes are immutable
 
@@ -193,7 +176,6 @@ def integer_exp(node):
 def id_exp(node):
 
     (ID, name) = node
-    assert_match(ID, 'ID')
 
     return node # id nodes are immutable
 
@@ -201,7 +183,6 @@ def id_exp(node):
 def uminus_exp(node):
 
     (UMINUS, e) = node
-    assert_match(UMINUS, 'UMINUS')
 
     newe = walk(e)
 
@@ -211,7 +192,6 @@ def uminus_exp(node):
 def not_exp(node):
 
     (NOT, e) = node
-    assert_match(NOT, 'NOT')
 
     newe = walk(e)
 
@@ -221,7 +201,6 @@ def not_exp(node):
 def paren_exp(node):
 
     (PAREN, exp) = node
-    assert_match(PAREN, 'PAREN')
 
     newexp = walk(exp)
 

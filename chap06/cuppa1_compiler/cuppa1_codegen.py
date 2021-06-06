@@ -6,14 +6,11 @@ the codegen walker generates lists of tuples for statements but
 strings for expressions.
 '''
 
-from assertmatch import assert_match
-
 # node functions
 #########################################################################
 def stmtlst(node):
 
     (STMTLIST, lst) = node
-    assert_match(STMTLIST, 'STMTLIST')
 
     outlst = []
     for stmt in lst:
@@ -24,7 +21,6 @@ def stmtlst(node):
 def nil(node):
 
     (NIL,) = node
-    assert_match(NIL, 'NIL')
 
     return []
 
@@ -32,8 +28,6 @@ def nil(node):
 def assign_stmt(node):
 
     (ASSIGN, (ID, name), exp) = node
-    assert_match(ASSIGN, 'ASSIGN')
-    assert_match(ID, 'ID')
 
     exp_code = walk(exp)
     code = [('store', name, exp_code)]
@@ -43,8 +37,6 @@ def assign_stmt(node):
 def get_stmt(node):
 
     (GET, (ID, name)) = node
-    assert_match(GET, 'GET')
-    assert_match(ID, 'ID')
 
     code = [('input', name)]
     return code
@@ -53,7 +45,6 @@ def get_stmt(node):
 def put_stmt(node):
 
     (PUT, exp) = node
-    assert_match(PUT, 'PUT')
 
     exp_code = walk(exp)
     code = [('print', exp_code)]
@@ -63,7 +54,6 @@ def put_stmt(node):
 def while_stmt(node):
 
     (WHILE, cond, body) = node
-    assert_match(WHILE, 'WHILE')
 
     top_label = label()
     bottom_label = label()
@@ -84,7 +74,6 @@ def while_stmt(node):
 def if_stmt(node):
 
     (IF, cond, then_stmt, else_stmt) = node
-    assert_match(IF, 'IF')
 
     else_label = label()
     end_label = label()
@@ -113,7 +102,6 @@ def if_stmt(node):
 def block_stmt(node):
 
     (BLOCK, s) = node
-    assert_match(BLOCK, 'BLOCK')
 
     code = walk(s)
     return code
@@ -122,8 +110,6 @@ def block_stmt(node):
 def binop_exp(node):
 
     (OP, c1, c2) = node
-    if OP not in ['PLUS', 'MINUS', 'MUL', 'DIV', 'EQ', 'LE']:
-        raise ValueError('pattern match failed on ' + OP)
 
     lcode = walk(c1)
     rcode = walk(c2)
@@ -140,6 +126,8 @@ def binop_exp(node):
         OPSYM = '=='
     elif OP == 'LE':
         OPSYM = '=<'
+    else:
+        raise ValueError('unknown operator: ' + OP)
 
     code = OPSYM + ' ' + lcode + ' ' + rcode
     return code
@@ -148,7 +136,6 @@ def binop_exp(node):
 def integer_exp(node):
 
     (INTEGER, value) = node
-    assert_match(INTEGER, 'INTEGER')
 
     # parens necessary due to unary minus
     if value < 0:
@@ -160,7 +147,6 @@ def integer_exp(node):
 def id_exp(node):
 
     (ID, name) = node
-    assert_match(ID, 'ID')
 
     return name
 
@@ -168,7 +154,6 @@ def id_exp(node):
 def uminus_exp(node):
 
     (UMINUS, e) = node
-    assert_match(UMINUS, 'UMINUS')
 
     code = walk(e)
     return '(-' + code + ')'
@@ -177,7 +162,6 @@ def uminus_exp(node):
 def not_exp(node):
 
     (NOT, e) = node
-    assert_match(NOT, 'NOT')
 
     code = walk(e)
     return '!' + code
@@ -186,7 +170,6 @@ def not_exp(node):
 def paren_exp(node):
 
     (PAREN, exp) = node
-    assert_match(PAREN, 'PAREN')
 
     exp_code = walk(exp)
 
