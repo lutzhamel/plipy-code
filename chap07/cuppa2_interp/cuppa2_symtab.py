@@ -11,17 +11,21 @@ class SymTab:
 
     #-------
     def __init__(self):
+        self.initialize()
+
+    #-------
+    def initialize(self):
         # global scope dictionary must always be present
         self.scoped_symtab = [{}]
 
     #-------
     def push_scope(self):
-        # push a new dictionary onto the stack - stack grows to the left
+        # push a new dictionary onto the stack
         self.scoped_symtab.insert(CURR_SCOPE,{})
 
     #-------
     def pop_scope(self):
-        # pop the left most dictionary off the stack
+        # pop dictionary of current scope off the stack
         if len(self.scoped_symtab) == 1:
             raise ValueError("cannot pop the global scope")
         else:
@@ -29,13 +33,13 @@ class SymTab:
 
     #-------
     def declare_sym(self, sym, init):
-        # declare the symbol in the current scope: dict @ position 0
+        # declare the symbol in the current scope
         
         # first we need to check whether the symbol was already declared
         # at this scope
         if sym in self.scoped_symtab[CURR_SCOPE]:
             raise ValueError("symbol {} already declared".format(sym))
-        
+
         # enter the symbol in the current scope
         scope_dict = self.scoped_symtab[CURR_SCOPE]
         scope_dict[sym] = init
@@ -72,5 +76,4 @@ class SymTab:
         raise ValueError("{} was not declared".format(sym))
 
 #########################################################################
-
-
+symbol_table = SymTab()

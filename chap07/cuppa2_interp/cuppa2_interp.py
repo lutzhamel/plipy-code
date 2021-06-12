@@ -1,18 +1,18 @@
 # Cuppa2 interpreter
 
-from cuppa2_state import state
+from cuppa2_symtab import symbol_table
 from cuppa2_fe import parse
 from cuppa2_interp_walk import walk
 from dumpast import dumpast
 
 def interp(input_stream, dump=False):
     try:
-        state.initialize()
-        state.ast = parse(input_stream)
+        symbol_table.initialize()
+        ast = parse(input_stream)
         if dump:
-            dumpast(state.ast)
+            dumpast(ast)
         else:
-            walk(state.ast)
+            walk(ast)
     except Exception as e:
         print("error: "+str(e))
     return None

@@ -1,7 +1,6 @@
 # A tree walker to interpret Cuppa2 programs
 
-from assertmatch import assert_match
-from cuppa2_state import state
+from cuppa2_symtab import symbol_table
 
 #########################################################################
 # node functions
@@ -9,7 +8,6 @@ from cuppa2_state import state
 def stmtlist(node):
 
     (STMTLIST, lst) = node
-    assert_match(STMTLIST, 'STMTLIST')
 
     for stmt in lst:
         walk(stmt)
@@ -20,11 +18,9 @@ def stmtlist(node):
 def declare_stmt(node):
 
     (DECLARE, (ID, name), exp) = node
-    assert_match(DECLARE, 'DECLARE')
-    assert_match(ID, 'ID')
 
     value = walk(exp)
-    state.symbol_table.declare_sym(name, value)
+    symbol_table.declare_sym(name, value)
 
     return None
 
@@ -32,11 +28,9 @@ def declare_stmt(node):
 def assign_stmt(node):
 
     (ASSIGN, (ID, name), exp) = node
-    assert_match(ASSIGN, 'ASSIGN')
-    assert_match(ID, 'ID')
 
     value = walk(exp)
-    state.symbol_table.update_sym(name, value)
+    symbol_table.update_sym(name, value)
 
     return None
 
@@ -44,8 +38,6 @@ def assign_stmt(node):
 def get_stmt(node):
 
     (GET, (ID, name)) = node
-    assert_match(GET, 'GET')
-    assert_match(ID, 'ID')
 
     s = input("Value for " + name + '? ')
 
@@ -54,7 +46,7 @@ def get_stmt(node):
     except ValueError:
         raise ValueError("expected an integer value for " + name)
 
-    state.symbol_table.update_sym(name, value)
+    symbol_table.update_sym(name, value)
 
     return None
 
@@ -62,7 +54,6 @@ def get_stmt(node):
 def put_stmt(node):
 
     (PUT, exp) = node
-    assert_match(PUT, 'PUT')
 
     value = walk(exp)
     print("{}".format(value))
@@ -73,7 +64,6 @@ def put_stmt(node):
 def while_stmt(node):
 
     (WHILE, cond, body) = node
-    assert_match(WHILE, 'WHILE')
 
     while walk(cond) != 0:
         walk(body)
@@ -84,7 +74,6 @@ def while_stmt(node):
 def if_stmt(node):
 
     (IF, cond, then_stmt, else_stmt) = node
-    assert_match(IF, 'IF')
 
     if walk(cond) != 0:
         walk(then_stmt)
@@ -96,11 +85,10 @@ def if_stmt(node):
 def block_stmt(node):
 
     (BLOCK, stmt_list) = node
-    assert_match(BLOCK, 'BLOCK')
 
-    state.symbol_table.push_scope()
+    symbol_table.push_scope()
     walk(stmt_list)
-    state.symbol_table.pop_scope()
+    symbol_table.pop_scope()
 
     return None
 
@@ -108,7 +96,6 @@ def block_stmt(node):
 def plus_exp(node):
 
     (PLUS,c1,c2) = node
-    assert_match(PLUS, 'PLUS')
 
     v1 = walk(c1)
     v2 = walk(c2)
@@ -119,7 +106,6 @@ def plus_exp(node):
 def minus_exp(node):
 
     (MINUS,c1,c2) = node
-    assert_match(MINUS, 'MINUS')
 
     v1 = walk(c1)
     v2 = walk(c2)
@@ -130,7 +116,6 @@ def minus_exp(node):
 def mul_exp(node):
 
     (MUL,c1,c2) = node
-    assert_match(MUL, 'MUL')
 
     v1 = walk(c1)
     v2 = walk(c2)
@@ -141,7 +126,6 @@ def mul_exp(node):
 def div_exp(node):
 
     (DIV,c1,c2) = node
-    assert_match(DIV, 'DIV')
 
     v1 = walk(c1)
     v2 = walk(c2)
@@ -152,7 +136,6 @@ def div_exp(node):
 def eq_exp(node):
 
     (EQ,c1,c2) = node
-    assert_match(EQ, 'EQ')
 
     v1 = walk(c1)
     v2 = walk(c2)
@@ -163,7 +146,6 @@ def eq_exp(node):
 def le_exp(node):
 
     (LE,c1,c2) = node
-    assert_match(LE, 'LE')
 
     v1 = walk(c1)
     v2 = walk(c2)
@@ -174,7 +156,6 @@ def le_exp(node):
 def integer_exp(node):
 
     (INTEGER, value) = node
-    assert_match(INTEGER, 'INTEGER')
 
     return value
 
@@ -182,15 +163,13 @@ def integer_exp(node):
 def id_exp(node):
 
     (ID, name) = node
-    assert_match(ID, 'ID')
 
-    return state.symbol_table.lookup_sym(name)
+    return symbol_table.lookup_sym(name)
 
 #########################################################################
 def uminus_exp(node):
 
     (UMINUS, exp) = node
-    assert_match(UMINUS, 'UMINUS')
 
     val = walk(exp)
     return - val
@@ -199,7 +178,6 @@ def uminus_exp(node):
 def not_exp(node):
 
     (NOT, exp) = node
-    assert_match(NOT, 'NOT')
 
     val = walk(exp)
     return 0 if val != 0 else 1
@@ -208,7 +186,6 @@ def not_exp(node):
 def paren_exp(node):
 
     (PAREN, exp) = node
-    assert_match(PAREN, 'PAREN')
 
     # return the value of the parenthesized expression
     return walk(exp)
@@ -217,7 +194,6 @@ def paren_exp(node):
 def nil(node):
 
     (NIL,) = node
-    assert_match(NIL, 'NIL')
 
     # do nothing!
 

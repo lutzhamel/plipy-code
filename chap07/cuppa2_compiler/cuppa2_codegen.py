@@ -6,15 +6,13 @@ the codegen walker generates lists of tuples for statements but
 strings for expressions.
 '''
 
-from cuppa2_state import state
-from assertmatch import assert_match
+from cuppa2_symtab import symbol_table
 
 # node functions
 #########################################################################
 def stmtlst(node):
 
     (STMTLIST, lst) = node
-    assert_match(STMTLIST, 'STMTLIST')
 
     outlst = []
     for stmt in lst:
@@ -25,7 +23,6 @@ def stmtlst(node):
 def nil(node):
 
     (NIL,) = node
-    assert_match(NIL, 'NIL')
 
     return []
 
@@ -33,11 +30,9 @@ def nil(node):
 def declare_stmt(node):
 
     (DECLARE, (ID, name), init_val) = node
-    assert_match(DECLARE, 'DECLARE')
-    assert_match(ID, 'ID')
 
-    state.symbol_table.declare_sym(name)
-    scoped_name = state.symbol_table.lookup_sym(name)
+    symbol_table.declare_sym(name)
+    scoped_name = symbol_table.lookup_sym(name)
     value = walk(init_val)
     code = [('store', scoped_name, str(value))]
 
@@ -47,11 +42,9 @@ def declare_stmt(node):
 def assign_stmt(node):
 
     (ASSIGN, (ID, name), exp) = node
-    assert_match(ASSIGN, 'ASSIGN')
-    assert_match(ID, 'ID')
 
     exp_code = walk(exp)
-    scoped_name = state.symbol_table.lookup_sym(name)
+    scoped_name = symbol_table.lookup_sym(name)
     code = [('store', scoped_name, exp_code)]
 
     return code
@@ -60,10 +53,8 @@ def assign_stmt(node):
 def get_stmt(node):
 
     (GET, (ID, name)) = node
-    assert_match(GET, 'GET')
-    assert_match(ID, 'ID')
 
-    scoped_name = state.symbol_table.lookup_sym(name)
+    scoped_name = symbol_table.lookup_sym(name)
     code = [('input', scoped_name)]
 
     return code
@@ -72,7 +63,6 @@ def get_stmt(node):
 def put_stmt(node):
 
     (PUT, exp) = node
-    assert_match(PUT, 'PUT')
 
     exp_code = walk(exp)
 
@@ -84,7 +74,6 @@ def put_stmt(node):
 def while_stmt(node):
 
     (WHILE, cond, body) = node
-    assert_match(WHILE, 'WHILE')
 
     top_label = label()
     bottom_label = label()
@@ -105,7 +94,6 @@ def while_stmt(node):
 def if_stmt(node):
 
     (IF, cond, then_stmt, else_stmt) = node
-    assert_match(IF, 'IF')
 
     else_label = label()
     end_label = label()
@@ -134,11 +122,10 @@ def if_stmt(node):
 def block_stmt(node):
 
     (BLOCK, s) = node
-    assert_match(BLOCK, 'BLOCK')
 
-    state.symbol_table.push_scope()
+    symbol_table.push_scope()
     code = walk(s)
-    state.symbol_table.pop_scope()
+    symbol_table.pop_scope()
 
     return code
 
@@ -172,7 +159,6 @@ def binop_exp(node):
 def integer_exp(node):
 
     (INTEGER, value) = node
-    assert_match(INTEGER, 'INTEGER')
 
     # parens necessary due to unary minus
     if value < 0:
@@ -184,9 +170,8 @@ def integer_exp(node):
 def id_exp(node):
 
     (ID, name) = node
-    assert_match(ID, 'ID')
 
-    scoped_name = state.symbol_table.lookup_sym(name)
+    scoped_name = symbol_table.lookup_sym(name)
 
     return scoped_name
 
@@ -194,7 +179,6 @@ def id_exp(node):
 def uminus_exp(node):
 
     (UMINUS, e) = node
-    assert_match(UMINUS, 'UMINUS')
 
     code = walk(e)
     return '(-' + code + ')'
@@ -203,7 +187,6 @@ def uminus_exp(node):
 def not_exp(node):
 
     (NOT, e) = node
-    assert_match(NOT, 'NOT')
 
     code = walk(e)
 
@@ -213,7 +196,6 @@ def not_exp(node):
 def paren_exp(node):
 
     (PAREN, exp) = node
-    assert_match(PAREN, 'PAREN')
 
     exp_code = walk(exp)
 

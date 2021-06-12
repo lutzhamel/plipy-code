@@ -2,6 +2,7 @@
 # symbol table for Cuppa2
 #
 # it is a scoped symbol table with a dictionary at each scope level
+# modified for the compiler.
 #
 #########################################################################
 
@@ -17,6 +18,10 @@ class SymTab:
 
     #-------
     def __init__(self):
+        self.initialize()
+
+    #-------
+    def initialize(self):
         # global scope dictionary must always be present
         self.scoped_symtab = [{}]
 
@@ -35,13 +40,13 @@ class SymTab:
 
     #-------
     def declare_sym(self, sym):
-        # declare the symbol in the current scope: dict @ position 0
-        
+        # declare the symbol in the current scope
+
         # first we need to check whether the symbol was already declared
         # at this scope
         if sym in self.scoped_symtab[CURR_SCOPE]:
             raise ValueError("symbol {} already declared".format(sym))
-        
+
         # enter the symbol in the current scope
         n_scopes = len(self.scoped_symtab)
         prefix = create_prefix(n_scopes-1)
@@ -54,7 +59,7 @@ class SymTab:
         # and return the associated value
 
         n_scopes = len(self.scoped_symtab)
-    
+
         # for the compiler version of the symbols we do not
         # return values but a scope prefix
         for scope in range(n_scopes):
@@ -66,5 +71,4 @@ class SymTab:
         raise ValueError("{} was not declared".format(sym))
 
 #########################################################################
-
-
+symbol_table = SymTab()
