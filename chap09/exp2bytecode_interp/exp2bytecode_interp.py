@@ -11,7 +11,7 @@ def get_tsx():
     return len(state.runtime_stack) - 1
 
 #####################################################################################
-def do_storable(storable, val):
+def store_storable(storable, val):
     # store the value in the appropriate storable
     if storable[0] == 'ID':
         # ('ID', name)
@@ -59,18 +59,18 @@ def interp_program():
 
         # interpret instruction
         if type == 'PRINT':
-            # PRINT opt_string exp
+            # PRINT string? exp
             val = eval_exp_tree(instr[2])
             str = instr[1] if instr[1] else ""
             print("{}{}".format(str, val))
             state.instr_ix += 1
 
         elif type == 'INPUT':
-            # INPUT opt_string storable
+            # INPUT string? storable
             storable = instr[2]
             str = instr[1] if instr[1] else "Please enter a value: "
             val = int(input(str))
-            do_storable(storable, val)
+            store_storable(storable, val)
             state.instr_ix += 1
 
         elif type == 'STORE':
@@ -78,7 +78,7 @@ def interp_program():
             storable = instr[1]
             exp = instr[2]
             val = eval_exp_tree(exp)
-            do_storable(storable, val)
+            store_storable(storable, val)
             state.instr_ix += 1
 
         elif type == 'CALL':
@@ -103,11 +103,11 @@ def interp_program():
             state.instr_ix += 1
 
         elif type == 'POPV':
-            # POPV opt_storable
+            # POPV storable?
             storable = instr[1]
             val = state.runtime_stack.pop()
             if storable:
-                do_storable(storable, val)
+                store_storable(storable, val)
             state.instr_ix += 1
 
         elif type == 'PUSHF':

@@ -5,7 +5,6 @@ NOTE: this code generator does not need access to the symbol table,
       the abstraction level of the AST has been lowered already to the level
       of the abstract machine code
 '''
-from assertmatch import assert_match
 
 #########################################################################
 # curr_frame_size: we use this global variable to broadcast the frame
@@ -80,7 +79,8 @@ def init_formal_args(formal_args, frame_size):
     arg_ix = 0
     for id in ll:
         (ADDR, sym) = id
-        assert_match(ADDR, 'ADDR')
+        if ADDR != 'ADDR':
+            raise ValueError("Expected and address.")
         offset = str(arg_ix - frame_size - 1)
         code += [('store', sym, '%tsx['+offset+']')]
         arg_ix -= 1
@@ -94,7 +94,6 @@ def init_formal_args(formal_args, frame_size):
 def stmtlist(node):
 
     (STMTLIST, lst) = node
-    assert_match(STMTLIST, 'STMTLIST')
 
     code = list()
     for stmt in lst:
@@ -114,9 +113,6 @@ def fundef_stmt(node):
      formal_arglist,
      body,
      (FRAMESIZE, curr_frame_size)) = node
-    assert_match(FUNDEF, 'FUNDEF')
-    assert_match(ADDR, 'ADDR')
-    assert_match(FRAMESIZE, 'FRAMESIZE')
 
     ignore_label = label()
     code = list()
@@ -145,8 +141,6 @@ def fundef_stmt(node):
 def call_stmt(node):
 
     (CALLSTMT, (ADDR, name), actual_args) = node
-    assert_match(CALLSTMT, 'CALLSTMT')
-    assert_match(ADDR, 'ADDR')
 
     code = list()
 
@@ -161,7 +155,6 @@ def return_stmt(node):
     global curr_frame_size
 
     (RETURN, exp) = node
-    assert_match(RETURN, 'RETURN')
 
     code = list()
 
@@ -180,8 +173,6 @@ def return_stmt(node):
 def assign_stmt(node):
 
     (ASSIGN, (ADDR, target), exp) = node
-    assert_match(ASSIGN, 'ASSIGN')
-    assert_match(ADDR, 'ADDR')
 
     (ecode, eloc) = walk(exp)
     code = list()
@@ -195,8 +186,6 @@ def assign_stmt(node):
 def get_stmt(node):
 
     (GET, (ADDR, target)) = node
-    assert_match(GET, 'GET')
-    assert_match(ADDR, 'ADDR')
 
     code = [('input', target)]
 
@@ -206,7 +195,6 @@ def get_stmt(node):
 def put_stmt(node):
 
     (PUT, exp) = node
-    assert_match(PUT, 'PUT')
 
     (ecode, eloc) = walk(exp)
     code = list()
@@ -220,7 +208,6 @@ def put_stmt(node):
 def while_stmt(node):
 
     (WHILE, cond, body) = node
-    assert_match(WHILE, 'WHILE')
 
     top_label = label()
     bottom_label = label()
@@ -242,7 +229,6 @@ def while_stmt(node):
 def if_stmt(node):
 
     (IF, cond, s1, s2) = node
-    assert_match(IF, 'IF')
 
     if s2[0] == 'NIL':
         end_label = label();
@@ -279,7 +265,6 @@ def if_stmt(node):
 def block_stmt(node):
 
     (BLOCK, s) = node
-    assert_match(BLOCK, 'BLOCK')
 
     code = walk(s)
 
@@ -291,9 +276,7 @@ def block_stmt(node):
 def binop_exp(node):
 
     (OP, (ADDR, target), c1, c2) = node
-    assert_match(ADDR, 'ADDR')
-    if OP not in ['PLUS', 'MINUS', 'MUL', 'DIV', 'EQ', 'LE']:
-        raise ValueError('pattern match failed on ' + OP)
+
 
     if OP == 'PLUS':
         OPSYM = '+'
@@ -307,6 +290,8 @@ def binop_exp(node):
         OPSYM = '=='
     elif OP == 'LE':
         OPSYM = '=<'
+    else:
+        raise ValueError('unknown operation: ' + OP)
 
     (lcode, lloc) = walk(c1)
     (rcode, rloc) = walk(c2)
@@ -321,10 +306,7 @@ def binop_exp(node):
 #########################################################################
 def call_exp(node):
 
-    (CALLEXP, (ADDR0, target), (ADDR1, name), actual_args) = node
-    assert_match(CALLEXP, 'CALLEXP')
-    assert_match(ADDR0, 'ADDR')
-    assert_match(ADDR1, 'ADDR')
+    (CALLEXP, (ADDR, target), (ADDR, name), actual_args) = node
 
     code = list()
     code += push_args(actual_args)
@@ -338,7 +320,6 @@ def call_exp(node):
 def integer_exp(node):
 
     (INTEGER, value) = node
-    assert_match(INTEGER, 'INTEGER')
 
     code = list()
     loc = str(value)
@@ -349,7 +330,6 @@ def integer_exp(node):
 def addr_exp(node):
 
     (ADDR, loc) = node
-    assert_match(ADDR, 'ADDR')
 
     code = list()
 
@@ -359,8 +339,6 @@ def addr_exp(node):
 def uminus_exp(node):
 
     (UMINUS, (ADDR, target), e) = node
-    assert_match(UMINUS, 'UMINUS')
-    assert_match(ADDR, 'ADDR')
 
     (ecode, eloc) = walk(e)
 
@@ -375,8 +353,6 @@ def uminus_exp(node):
 def not_exp(node):
 
     (NOT, (ADDR, target), e) = node
-    assert_match(NOT, 'NOT')
-    assert_match(ADDR, 'ADDR')
 
     (ecode, eloc) = walk(e)
 
