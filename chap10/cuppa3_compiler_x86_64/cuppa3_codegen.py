@@ -79,7 +79,7 @@ def init_formal_args(formal_args):
         # the last term in the following expression is the size of
         # the return address.
         offset = str(arg_ix*8 + curr_frame_size*8 + 1*8)
-        code += [('mov', '{}(%rsp)'.format(offset), '%eax')]
+        code += [('mov', str(offset)+'(%rsp)', '%eax')]
         code += [('mov', '%eax', sym)]
         arg_ix += 1
 

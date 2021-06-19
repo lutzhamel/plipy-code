@@ -2,7 +2,6 @@
 
 from cuppa4_symtab import symtab
 from cuppa4_types import coerce, promote
-from assertmatch import assert_match
 
 #########################################################################
 # Use the exception mechanism to return values from function calls

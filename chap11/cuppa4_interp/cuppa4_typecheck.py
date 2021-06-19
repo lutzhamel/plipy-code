@@ -2,13 +2,11 @@
 
 from cuppa4_symtab import symtab
 from cuppa4_types import promote, safe_assign
-from assertmatch import assert_match
 
 
 #########################################################################
 def declare_formal_args(formal_args):
     (LIST, fl) = formal_args
-    assert_match(LIST, 'LIST')
 
     for (FORMALARG, type, (ID, f)) in fl:
         symtab.declare(f, type)
@@ -34,7 +32,7 @@ def check_call(function_type, actual_arguments):
                 "actual argument type {} is not compatible with \
                 formal argument type {}"
                 .format(tactual[0],tformal[0]))
-                
+
     return ret_type
 
 #########################################################################
@@ -43,7 +41,6 @@ def check_call(function_type, actual_arguments):
 def stmtlist(node):
 
     (STMTLIST, lst) = node
-    assert_match(STMTLIST, 'STMTLIST')
 
     for stmt in lst:
         walk(stmt)
@@ -54,7 +51,6 @@ def stmtlist(node):
 def nil(node):
 
     (NIL,) = node
-    assert_match(NIL, 'NIL')
 
     return ('VOID_TYPE',)
 
@@ -62,8 +58,6 @@ def nil(node):
 def fundecl_stmt(node):
 
     (FUNDECL, (ID, name), type, arglist, body) = node
-    assert_match(FUNDECL, 'FUNDECL')
-    assert_match(ID, 'ID')
 
     symtab.declare(name, type)
 
@@ -82,8 +76,6 @@ def fundecl_stmt(node):
 def vardecl_stmt(node):
 
     (VARDECL, (ID, name), type, init_val) = node
-    assert_match(VARDECL, 'VARDECL')
-    assert_match(ID, 'ID')
 
     ti = walk(init_val)
     if not safe_assign(type, ti):
@@ -97,7 +89,6 @@ def vardecl_stmt(node):
 def assign_stmt(node):
 
     (ASSIGN, name_exp, exp) = node
-    assert_match(ASSIGN, 'ASSIGN')
 
     tn = walk(name_exp)
     te = walk(exp)
@@ -112,7 +103,6 @@ def assign_stmt(node):
 def get_stmt(node):
 
     (GET, name_exp) = node
-    assert_match(GET, 'GET')
 
     walk(name_exp)
 
@@ -122,7 +112,6 @@ def get_stmt(node):
 def put_stmt(node):
 
     (PUT, exp) = node
-    assert_match(PUT, 'PUT')
 
     walk(exp)
 
@@ -132,7 +121,6 @@ def put_stmt(node):
 def call_stmt(node):
 
     (CALLSTMT, name_exp, actual_args) = node
-    assert_match(CALLSTMT, 'CALLSTMT')
 
     check_call(walk(name_exp), actual_args)
 
@@ -142,7 +130,6 @@ def call_stmt(node):
 def return_stmt(node):
 
     (RETURN, exp) = node
-    assert_match(RETURN, 'RETURN')
 
     t = walk(exp)
     ret_type = symtab.lookup_ret_type()
@@ -160,7 +147,6 @@ def return_stmt(node):
 def while_stmt(node):
 
     (WHILE, cond, body) = node
-    assert_match(WHILE, 'WHILE')
 
     ctype = walk(cond)
     if ctype[0] != 'INTEGER_TYPE':
@@ -174,7 +160,6 @@ def while_stmt(node):
 def if_stmt(node):
 
     (IF, cond, then_stmt, else_stmt) = node
-    assert_match(IF, 'IF')
 
     ctype = walk(cond)
     if ctype[0] != 'INTEGER_TYPE':
@@ -189,7 +174,6 @@ def if_stmt(node):
 def block_stmt(node):
 
     (BLOCK, stmt_list) = node
-    assert_match(BLOCK, 'BLOCK')
 
     symtab.push_scope()
     walk(stmt_list)
@@ -200,7 +184,6 @@ def block_stmt(node):
 def plus_exp(node):
 
     (PLUS,c1,c2) = node
-    assert_match(PLUS, 'PLUS')
 
     t1 = walk(c1)
     t2 = walk(c2)
@@ -211,7 +194,6 @@ def plus_exp(node):
 def minus_exp(node):
 
     (MINUS,c1,c2) = node
-    assert_match(MINUS, 'MINUS')
 
     t1 = walk(c1)
     t2 = walk(c2)
@@ -225,7 +207,6 @@ def minus_exp(node):
 def mul_exp(node):
 
     (MUL,c1,c2) = node
-    assert_match(MUL, 'MUL')
 
     t1 = walk(c1)
     t2 = walk(c2)
@@ -239,7 +220,6 @@ def mul_exp(node):
 def div_exp(node):
 
     (DIV,c1,c2) = node
-    assert_match(DIV, 'DIV')
 
     t1 = walk(c1)
     t2 = walk(c2)
@@ -253,7 +233,6 @@ def div_exp(node):
 def eq_exp(node):
 
     (EQ,c1,c2) = node
-    assert_match(EQ, 'EQ')
 
     walk(c1)
     walk(c2)
@@ -264,7 +243,6 @@ def eq_exp(node):
 def le_exp(node):
 
     (LE,c1,c2) = node
-    assert_match(LE, 'LE')
 
     walk(c1)
     walk(c2)
@@ -275,7 +253,6 @@ def le_exp(node):
 def const_exp(node):
 
     (CONST, type, value) = node
-    assert_match(CONST, 'CONST')
 
     return type
 
@@ -283,7 +260,6 @@ def const_exp(node):
 def id_exp(node):
 
     (ID, name) = node
-    assert_match(ID, 'ID')
 
     val = symtab.lookup_sym(name)
 
@@ -293,7 +269,6 @@ def id_exp(node):
 def call_exp(node):
 
     (CALLEXP, name_exp, actual_args) = node
-    assert_match(CALLEXP, 'CALLEXP')
 
     tf = walk(name_exp)
 
@@ -303,7 +278,6 @@ def call_exp(node):
 def uminus_exp(node):
 
     (UMINUS, exp) = node
-    assert_match(UMINUS, 'UMINUS')
 
     tr = walk(exp)
     if tr[0] not in ['INTEGER_TYPE','FLOAT_TYPE']:
@@ -315,7 +289,6 @@ def uminus_exp(node):
 def not_exp(node):
 
     (NOT, exp) = node
-    assert_match(NOT, 'NOT')
 
     tr = walk(exp)
     if tr[0] not in ['INTEGER_TYPE']:
@@ -327,7 +300,6 @@ def not_exp(node):
 def paren_exp(node):
 
     (PAREN, exp) = node
-    assert_match(PAREN, 'paren')
 
     # return the value of the parenthesized expression
     return walk(exp)

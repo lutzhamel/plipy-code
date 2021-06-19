@@ -9,7 +9,6 @@ we map all integers into 8 byte words on the target machine.
 '''
 
 from cuppa3_symtab import symtab
-from assertmatch import assert_match
 
 #########################################################################
 _temp_cnt = 0
@@ -36,7 +35,6 @@ def eval_actual_args(args):
     return a list with the evaluated actual values
     '''
     (LIST, ll) = args
-    assert_match(LIST, 'LIST')
 
     outlist = []
     for e in ll:
@@ -48,7 +46,6 @@ def eval_actual_args(args):
 def declare_formal_args(formal_args):
 
     (LIST, fl) = formal_args
-    assert_match(LIST, 'LIST')
 
     outlist = list()
     for (ID, sym) in fl:
@@ -89,7 +86,6 @@ def handle_call(call_kind, name, actual_arglist):
 def stmtlist(node):
 
     (STMTLIST, lst) = node
-    assert_match(STMTLIST, 'STMTLIST')
 
     outlist = list()
     for stmt in lst:
@@ -101,7 +97,6 @@ def stmtlist(node):
 def nil(node):
 
     (NIL,) = node
-    assert_match(NIL, 'NIL')
 
     return ('NIL',)
 
@@ -113,8 +108,6 @@ def nil(node):
 def fundecl_stmt(node):
 
     (FUNDECL, (ID, name), arglist, body) = node
-    assert_match(FUNDECL, 'FUNDECL')
-    assert_match(ID, 'ID')
 
     # we don't need the function body - abbreviated function value
     funval = ('FUNVAL', arglist)
@@ -136,8 +129,6 @@ def fundecl_stmt(node):
 def vardecl_stmt(node):
 
     (VARDECL, (ID, name), init_val) = node
-    assert_match(VARDECL, 'VARDECL')
-    assert_match(ID, 'ID')
 
     t = walk(init_val)
     target_name = symtab.make_target_name()
@@ -151,8 +142,6 @@ def vardecl_stmt(node):
 def assign_stmt(node):
 
     (ASSIGN, (ID, name), exp) = node
-    assert_match(ASSIGN, 'ASSIGN')
-    assert_match(ID, 'ID')
 
     t = walk(exp)
     target_name = symtab.get_target_name(name)
@@ -162,8 +151,6 @@ def assign_stmt(node):
 def get_stmt(node):
 
     (GET, (ID, name)) = node
-    assert_match(GET, 'GET')
-    assert_match(ID, 'ID')
 
     target_name = symtab.get_target_name(name)
     return ('GET', ('ADDR', target_name))
@@ -172,7 +159,6 @@ def get_stmt(node):
 def put_stmt(node):
 
     (PUT, exp) = node
-    assert_match(PUT, 'PUT')
 
     t = walk(exp)
 
@@ -182,8 +168,6 @@ def put_stmt(node):
 def call_stmt(node):
 
     (CALLSTMT, (ID, name), actual_args) = node
-    assert_match(CALLSTMT, 'CALLSTMT')
-    assert_match(ID, 'ID')
 
     return handle_call('CALLSTMT', name, actual_args)
 
@@ -191,7 +175,6 @@ def call_stmt(node):
 def return_stmt(node):
 
     (RETURN, exp) = node
-    assert_match(RETURN, 'RETURN')
 
     if not symtab.in_function:
         raise ValueError("return has to appear in a function context.")
@@ -204,7 +187,6 @@ def return_stmt(node):
 def while_stmt(node):
 
     (WHILE, cond, body) = node
-    assert_match(WHILE, 'WHILE')
 
     t1 = walk(cond)
     t2 = walk(body)
@@ -215,7 +197,6 @@ def while_stmt(node):
 def if_stmt(node):
 
     (IF, cond, then_stmt, else_stmt) = node
-    assert_match(IF, 'IF')
 
     t1 = walk(cond)
     t2 = walk(then_stmt)
@@ -226,7 +207,6 @@ def if_stmt(node):
 def block_stmt(node):
 
     (BLOCK, stmt_list) = node
-    assert_match(BLOCK, 'BLOCK')
 
     symtab.push_scope()
     t = walk(stmt_list)
@@ -239,8 +219,6 @@ def binop_exp(node):
     # turn expressions into three-address codes
 
     (OP, c1, c2) = node
-    if OP not in ['PLUS', 'MINUS', 'MUL', 'DIV', 'EQ', 'LE']:
-        raise ValueError("pattern match failed on " + OP)
 
     t1 = walk(c1)
     t2 = walk(c2)
@@ -253,7 +231,6 @@ def binop_exp(node):
 def integer_exp(node):
 
     (INTEGER, value) = node
-    assert_match(INTEGER, 'INTEGER')
 
     return ('INTEGER', value)
 
@@ -261,7 +238,6 @@ def integer_exp(node):
 def id_exp(node):
 
     (ID, name) = node
-    assert_match(ID, 'ID')
 
     target_name = symtab.get_target_name(name)
 
@@ -271,8 +247,6 @@ def id_exp(node):
 def call_exp(node):
 
     (CALLEXP, (ID, name), actual_args) = node
-    assert_match(CALLEXP, 'CALLEXP')
-    assert_match(ID, 'ID')
 
     return handle_call('CALLEXP', name, actual_args)
 
@@ -280,7 +254,6 @@ def call_exp(node):
 def uminus_exp(node):
 
     (UMINUS, exp) = node
-    assert_match(UMINUS, 'UMINUS')
 
     t = walk(exp)
     target_name = declare_temp()
@@ -291,7 +264,6 @@ def uminus_exp(node):
 def not_exp(node):
 
     (NOT, exp) = node
-    assert_match(NOT, 'NOT')
 
     t = walk(exp)
     target_name = declare_temp()
@@ -302,7 +274,6 @@ def not_exp(node):
 def paren_exp(node):
 
     (PAREN, exp) = node
-    assert_match(PAREN, 'PAREN')
 
     # get rid of parenthesis - not necessary in AST
     return walk(exp)

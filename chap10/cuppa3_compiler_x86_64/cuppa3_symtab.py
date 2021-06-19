@@ -28,7 +28,7 @@ class SymTab:
     def make_target_name(self):
         if self.in_function:
             # in functions all function local variables are on the stack
-            name = "{}(%rsp)".format(self.offset_cnt*8)
+            name = str(self.offset_cnt*8)+"(%rsp)"
             self.offset_cnt += 1
         else:
             # global variable
