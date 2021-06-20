@@ -2,7 +2,6 @@
 
 from cuppa5_symtab import symtab
 from cuppa5_types import promote, safe_assign
-from assertmatch import assert_match
 
 
 #########################################################################
