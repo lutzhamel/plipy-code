@@ -3,6 +3,9 @@
 from ply import yacc
 from pattern_ply_lex import tokens, lexer
 
+# here we only have one parsing function that
+# incorporates multiple rules -- please see
+# the PLY documentation for details.
 def p_grammar(p):
     '''
     stmtlist : stmtlist stmt
