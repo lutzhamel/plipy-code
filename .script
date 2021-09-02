@@ -1,0 +1,11 @@
+#!/bin/bash
+clear
+echo "Welcome!"
+echo " "
+echo "Here is the list of source code directories:"
+ls -d chap*
+
+echo " "
+echo "To navigate into a directory type something like: cd chap03"
+echo " "
+echo "To come back to this directory: cd $PWD"

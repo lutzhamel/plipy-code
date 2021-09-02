@@ -1,0 +1,6 @@
+c_code
+.DS_STORE
+__pycache__
+parsetab.py
+parser.out
+*~
