@@ -5,5 +5,5 @@ This is the source code tree for the book
 by Lutz Hamel, University of Rhode Island,
 to be published by Franklin & Beedle Assoc.
 
-For questions and comments please contact me at lutzhamel at uri.edu
+For questions and comments please contact me at lutzhamel@uri.edu
 
