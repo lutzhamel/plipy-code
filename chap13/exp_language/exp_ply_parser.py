@@ -30,7 +30,7 @@ if __name__ == "__main__":
     from sys import stdin
     char_stream = stdin.read()
     try:
-        parser.parse(char_stream)
+        parser.parse(char_stream,lexer=lexer)
         print("parse successful.")
     except Exception as e:
         print("error: " + str(e))
