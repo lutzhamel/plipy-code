@@ -1,6 +1,7 @@
 # Cuppa1 interpreter using Yacc
 
 from cuppa1_state import state
+from cuppa1_ply_lex import lexer
 from cuppa1_ply_fe import parser
 from cuppa1_interp_walk import walk
 from dumpast import dumpast
@@ -8,7 +9,7 @@ from dumpast import dumpast
 def interp(input_stream, dump=False):
     try:
         state.initialize()
-        parser.parse(input_stream)
+        parser.parse(input_stream, lexer=lexer)
         if dump:
             dumpast(state.ast)
         else:
