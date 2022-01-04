@@ -4,6 +4,10 @@ of tables.  These tables implement the type hierarchy
 
          integer < float < string
          void
+
+Note: we also have a function type but in this language it is not part of
+the type system/hierarchy.  However, it does have an impact on why
+we use 
 '''
 supported_types = [
     'STRING_TYPE',
