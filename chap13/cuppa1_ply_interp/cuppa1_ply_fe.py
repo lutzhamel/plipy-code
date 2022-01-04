@@ -125,5 +125,5 @@ if __name__ == "__main__":
     from sys import stdin
     from dumpast import dumpast
     char_stream = stdin.read()
-    parser.parse(char_stream)
+    parser.parse(char_stream, lexer=lexer)
     dumpast(state.ast)
