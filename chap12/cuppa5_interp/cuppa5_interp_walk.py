@@ -38,7 +38,15 @@ def location(storable):
 #########################################################################
 def update_storable(storable, exp):
     '''
-    update a storable location with the value of exp
+    Update a storable location with the value of exp. We have three cases
+    to contend with:
+       (a) a[i] = v # where a is an array and v is a scalar
+       (b) x = v    # where x and v are scalars
+       (c) a = b    # where a and b are arrays
+    The function 'location' distinguishes between the case (a) and the
+    other two cases. Case (a) maps into 'MEMORY' and the other two
+    cases map into 'ID'.  Cases (b) and (c) are then distinguished
+    when trying to do the actual assignment.
     '''
 
     # evaluate source
@@ -71,7 +79,7 @@ def update_storable(storable, exp):
             # id refers to an array, copy the whole array
             (ARRAYVAL, ts, (LIST, smemory)) = val
             # we are copying the whole array
-            # Note: we don't want to loose the reference to our memory
+            # Note: we don't want to lose the reference to our memory
             # so we are copying each element separately
             (ARRAY_TYPE, base_type, (SIZE, size)) = ts
             # Note: we could use Python shallow array copy here but
@@ -207,7 +215,7 @@ def arraydecl_stmt(node):
     # therefore we bind the list into the symbol table as
     # part of the declaration
     # Note: we only bind actual Python values into the symbol table,
-    # therefore we need to conver the init_val_list into a list of values.
+    # therefore we need to convert the init_val_list into a list of values.
 
     symtab.declare(name,
                     ('ARRAYVAL',

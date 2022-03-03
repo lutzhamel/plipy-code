@@ -95,7 +95,7 @@ def assign_stmt(node):
 
     if not safe_assign(tn, te):
         raise ValueError("left type {} is not compatible with right type {}"
-                        .format(tn[0],te[0]))
+                         .format(tn[0],te[0]))
 
     return None
 
@@ -151,7 +151,7 @@ def while_stmt(node):
     ctype = walk(cond)
     if ctype[0] != 'INTEGER_TYPE':
         raise ValueError("while condition has to be of type INTEGER_TYPE not {}"
-                    .format(ctype[0]))
+                         .format(ctype[0]))
     walk(body)
 
     return None
@@ -234,8 +234,10 @@ def eq_exp(node):
 
     (EQ,c1,c2) = node
 
-    walk(c1)
-    walk(c2)
+    t1 = walk(c1)
+    t2 = walk(c2)
+    if promote(t1,t2)[0] == 'VOID_TYPE':
+        raise ValueError("Illegal type in relational operator.")
 
     return ('INTEGER_TYPE',)
 
@@ -244,8 +246,10 @@ def le_exp(node):
 
     (LE,c1,c2) = node
 
-    walk(c1)
-    walk(c2)
+    t1 = walk(c1)
+    t2 = walk(c2)
+    if promote(t1,t2)[0] == 'VOID_TYPE':
+        raise ValueError("Illegal type in relational operator.")
 
     return ('INTEGER_TYPE',)
 

@@ -176,7 +176,6 @@ def return_stmt(node):
 def while_stmt(node):
 
     (WHILE, cond, body) = node
-    assert_match(WHILE, 'WHILE')
 
     ctype = walk(cond)
     if ctype[0] != 'INTEGER_TYPE':

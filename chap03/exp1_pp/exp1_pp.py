@@ -2,8 +2,8 @@
 Pretty printer for our Exp1 language
 '''
 
-# stmtlist : {PRINT,STORE} (stmt)*
-def stmtlist(stream):
+# stmt_list : {PRINT,STORE} (stmt)*
+def stmt_list(stream):
   output_str = ""
   while stream.pointer().type in ['PRINT','STORE']:
     output_str += stmt(stream)
@@ -88,7 +88,7 @@ def pp(char_stream=None):
         if not char_stream:
             char_stream = stdin.read() # read from stdin
         token_stream = Lexer(char_stream)
-        formatted_string = stmtlist(token_stream)
+        formatted_string = stmt_list(token_stream)
         if token_stream.end_of_file():
             print("{}".format(formatted_string),end="")
         else:

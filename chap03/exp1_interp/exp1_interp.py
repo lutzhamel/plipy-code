@@ -4,8 +4,8 @@ Syntax-directed interpreter for our Exp1 language
 
 symboltable = None
 
-# stmtlist : {PRINT,STORE} (stmt)*
-def stmtlist(stream):
+# stmt_list : {PRINT,STORE} (stmt)*
+def stmt_list(stream):
   while stream.pointer().type in ['PRINT','STORE']:
     stmt(stream)
   return None
@@ -91,7 +91,7 @@ def interp(char_stream=None):
         if not char_stream:
             char_stream = stdin.read() # read from stdin
         token_stream = Lexer(char_stream)
-        stmtlist(token_stream) # call the parser function for start symbol
+        stmt_list(token_stream) # call the parser function for start symbol
         if token_stream.end_of_file():
             print("done!")
         else:

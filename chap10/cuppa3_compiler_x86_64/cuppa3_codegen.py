@@ -334,6 +334,8 @@ def binop_exp(node):
         code += [('mov', '$0', '%eax')]
         code += [(end_label+':',)]
         code += [('mov', '%eax', target)]
+    else:
+        raise ValueError("unknow operator {}".format(OP))
 
     return (code, target)
 

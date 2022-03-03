@@ -115,7 +115,7 @@ def assign_stmt(node):
 
     (t,v) = walk(exp)
     (CONST, ts, (VALUE, vs)) = symtab.lookup_sym(name)
-    symtab.update_sym(name, ('CONST', t, ('VALUE', coerce(ts,t)(v))))
+    symtab.update_sym(name, ('CONST', ts, ('VALUE', coerce(ts,t)(v))))
 
     return None
 

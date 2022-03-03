@@ -1,8 +1,8 @@
 '''
 sLL(1) grammar for Exp0 with lookahead sets:
 
-    stmtlist : {p,s} stmt stmtlist
-             | {""} ""
+    stmt_list : {p,s} stmt stmt_list
+              | {""} ""
 
     stmt : {p} p exp ;
          | {s} s var exp ;
@@ -32,11 +32,11 @@ Example program: s x 1; p (+ x 1);
 '''
 
 
-def stmtlist(stream):
+def stmt_list(stream):
     sym = stream.pointer()
     if sym in ['p','s']:
         stmt(stream)
-        stmtlist(stream)
+        stmt_list(stream)
         return
     else:
         return
@@ -136,7 +136,7 @@ def parse():
     from inputstream import InputStream
     stream = InputStream() # reads from stdin
     try:
-        stmtlist(stream) # call the parser function for start symbol
+        stmt_list(stream) # call the parser function for start symbol
         if stream.end_of_file():
             print("parse successful")
         else:

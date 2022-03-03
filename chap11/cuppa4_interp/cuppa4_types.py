@@ -7,7 +7,7 @@ of tables.  These tables implement the type hierarchy
 
 Note: we also have a function type but in this language it is not part of
 the type system/hierarchy.  However, it does have an impact on why
-we use 
+we use
 '''
 supported_types = [
     'STRING_TYPE',
@@ -30,26 +30,26 @@ def id(x):
 
 # compute the common type for operands of a binary operation
 _promote_table = {
-  'STRING_TYPE' : {'STRING_TYPE': 'STRING_TYPE', 'FLOAT_TYPE': 'STRING_TYPE', 'INTEGER_TYPE': 'STRING_TYPE',  'VOID_TYPE': 'VOID_TYPE'},
-  'FLOAT_TYPE'  : {'STRING_TYPE': 'STRING_TYPE', 'FLOAT_TYPE': 'FLOAT_TYPE',  'INTEGER_TYPE': 'FLOAT_TYPE',   'VOID_TYPE': 'VOID_TYPE'},
-  'INTEGER_TYPE': {'STRING_TYPE': 'STRING_TYPE', 'FLOAT_TYPE': 'FLOAT_TYPE',  'INTEGER_TYPE': 'INTEGER_TYPE', 'VOID_TYPE': 'VOID_TYPE'},
-  'VOID_TYPE'   : {'STRING_TYPE': 'VOID_TYPE',   'FLOAT_TYPE': 'VOID_TYPE',   'INTEGER_TYPE': 'VOID_TYPE',    'VOID_TYPE': 'VOID_TYPE'},
+  'STRING_TYPE' :{'STRING_TYPE':'STRING_TYPE', 'FLOAT_TYPE':'STRING_TYPE', 'INTEGER_TYPE':'STRING_TYPE',  'VOID_TYPE':'VOID_TYPE'},
+  'FLOAT_TYPE'  :{'STRING_TYPE':'STRING_TYPE', 'FLOAT_TYPE':'FLOAT_TYPE',  'INTEGER_TYPE':'FLOAT_TYPE',   'VOID_TYPE':'VOID_TYPE'},
+  'INTEGER_TYPE':{'STRING_TYPE':'STRING_TYPE', 'FLOAT_TYPE':'FLOAT_TYPE',  'INTEGER_TYPE':'INTEGER_TYPE', 'VOID_TYPE':'VOID_TYPE'},
+  'VOID_TYPE'   :{'STRING_TYPE':'VOID_TYPE',   'FLOAT_TYPE':'VOID_TYPE',   'INTEGER_TYPE':'VOID_TYPE',    'VOID_TYPE':'VOID_TYPE'},
 }
 
 # compute the type coercion function given the target and source types
 _coercion_table = {
-  'STRING_TYPE' : {'STRING_TYPE': id,    'FLOAT_TYPE': str,   'INTEGER_TYPE': str,   'VOID_TYPE': error},
-  'FLOAT_TYPE'  : {'STRING_TYPE': error, 'FLOAT_TYPE': id,    'INTEGER_TYPE': float, 'VOID_TYPE': error},
-  'INTEGER_TYPE': {'STRING_TYPE': error, 'FLOAT_TYPE': error, 'INTEGER_TYPE': id,    'VOID_TYPE': error},
-  'VOID_TYPE'   : {'STRING_TYPE': error, 'FLOAT_TYPE': error, 'INTEGER_TYPE': error, 'VOID_TYPE': error},
+  'STRING_TYPE' :{'STRING_TYPE':id,    'FLOAT_TYPE':str,   'INTEGER_TYPE':str,   'VOID_TYPE':error},
+  'FLOAT_TYPE'  :{'STRING_TYPE':error, 'FLOAT_TYPE':id,    'INTEGER_TYPE':float, 'VOID_TYPE':error},
+  'INTEGER_TYPE':{'STRING_TYPE':error, 'FLOAT_TYPE':error, 'INTEGER_TYPE':id,    'VOID_TYPE':error},
+  'VOID_TYPE'   :{'STRING_TYPE':error, 'FLOAT_TYPE':error, 'INTEGER_TYPE':error, 'VOID_TYPE':error},
 }
 
 # compute whether an assignment is safe based on the target and source type
 _safe_assign_table = {
-  'STRING_TYPE' : {'STRING_TYPE': True,  'FLOAT_TYPE': True,  'INTEGER_TYPE': True,  'VOID_TYPE': False},
-  'FLOAT_TYPE'  : {'STRING_TYPE': False, 'FLOAT_TYPE': True,  'INTEGER_TYPE': True,  'VOID_TYPE': False},
-  'INTEGER_TYPE': {'STRING_TYPE': False, 'FLOAT_TYPE': False, 'INTEGER_TYPE': True,  'VOID_TYPE': False},
-  'VOID_TYPE'   : {'STRING_TYPE': False, 'FLOAT_TYPE': False, 'INTEGER_TYPE': False, 'VOID_TYPE': False},
+  'STRING_TYPE' :{'STRING_TYPE':True,  'FLOAT_TYPE':True,  'INTEGER_TYPE':True,  'VOID_TYPE':False},
+  'FLOAT_TYPE'  :{'STRING_TYPE':False, 'FLOAT_TYPE':True,  'INTEGER_TYPE':True,  'VOID_TYPE':False},
+  'INTEGER_TYPE':{'STRING_TYPE':False, 'FLOAT_TYPE':False, 'INTEGER_TYPE':True,  'VOID_TYPE':False},
+  'VOID_TYPE'   :{'STRING_TYPE':False, 'FLOAT_TYPE':False, 'INTEGER_TYPE':False, 'VOID_TYPE':False},
 }
 
 def promote(type1, type2):

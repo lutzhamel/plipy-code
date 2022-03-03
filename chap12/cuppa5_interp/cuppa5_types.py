@@ -62,11 +62,11 @@ def coerce(target, source):
 
 def safe_assign(target, source):
     # array types are structured types. there is no nice way to do lookups
-    # in a table so we have to compute if it safe to assign.
+    # in a table so we have to compute if it is safe to assign.
     if target[0] == 'ARRAY_TYPE' and source[0] == 'ARRAY_TYPE':
         (ARRAY_TYPE, ttype, (SIZE, tsize)) = target
         (ARRAY_TYPE, stype, (SIZE, ssize)) = source
-        # compare base types and size -- have to be exacty the same!
+        # compare base types and size -- have to be exactly the same!
         if ttype == stype and tsize == ssize:
             return True
         else:

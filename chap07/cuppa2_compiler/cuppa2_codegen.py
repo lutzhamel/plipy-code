@@ -33,8 +33,8 @@ def declare_stmt(node):
 
     symbol_table.declare_sym(name)
     scoped_name = symbol_table.lookup_sym(name)
-    value = walk(init_val)
-    code = [('store', scoped_name, str(value))]
+    value_code = walk(init_val)
+    code = [('store', scoped_name, value_code)]
 
     return code
 

@@ -181,6 +181,8 @@ def id_suffix(stream):
         stream.match('LPAREN')
         if stream.pointer().type in exp_lookahead:
             args = actual_args(stream)
+        else:
+            args = ('LIST', [])
         stream.match('RPAREN')
         if stream.pointer().type in ['SEMI']:
             stream.match('SEMI')

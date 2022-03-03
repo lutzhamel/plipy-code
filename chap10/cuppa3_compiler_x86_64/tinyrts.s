@@ -1,29 +1,29 @@
 ####################################################################
 # tinyrts.s
 #
-# a minimal runtime system for the Cuppa3/x86_65
+# a minimal runtime system for the Cuppa3/x86_64
 # compiler. it provides the functions:
-#	
+#
 #   put(i) - print the integer i to the screen, where i is an 8 byte
-#	     integer expected to be pushed on the stack before the
-#            call to put	
+#	           integer expected to be pushed on the stack before the
+#            call to put
 #   get()  - prompts the user for input of an integer value
 #            value is returned in %eax
-#   exit   - shuts the process down cleanly	
-#	
+#   exit() - shuts the process down cleanly
+#
 # this is a "bare metal" rts, no other libraries are required.
 # runs right on top of the kernel. written in gas using AT&T
 # syntax.
 #
 # syscall info was gleaned from:
-# blog.rchapman.org/posts/Linux_System_Call_Table_for_x86_64/	
+# blog.rchapman.org/posts/Linux_System_Call_Table_for_x86_64/
 #
 # (c) Lutz Hamel, University of Rhode Island
 ####################################################################
 
 	.data
 
-	# general purpose buffer 
+	# general purpose buffer
 	.lcomm rtsbuf, 256
 
 	# this buffer contains the prompt string
@@ -215,4 +215,3 @@ exit:
 	mov 	$60,%rax		# sys_exit
 	mov 	$0,%rdi			# 0, no error
 	syscall
-	

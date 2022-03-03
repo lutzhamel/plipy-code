@@ -121,7 +121,8 @@ def id_suffix(stream):
         stream.match('LPAREN')
         if stream.pointer().type in ['INTEGER','ID','LPAREN','MINUS','NOT']:
             args = actual_args(stream)
-        stream.match('RPAREN')
+        else:
+            args = ('LIST', [])
         if stream.pointer().type in ['SEMI']:
             stream.match('SEMI')
         return args

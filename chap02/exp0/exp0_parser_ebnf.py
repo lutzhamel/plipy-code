@@ -1,7 +1,7 @@
 '''
 sLL(1) grammar written in EBNF for Exp0 with lookahead sets:
 
-    stmtlist : ({p,s} stmt)*
+    stmt_list : ({p,s} stmt)*
 
     stmt : {p} p exp ;
          | {s} s var exp ;
@@ -31,7 +31,7 @@ Example program: s x 1; p (+ x 1);
 '''
 
 
-def stmtlist(stream):
+def stmt_list(stream):
     while stream.pointer() in ['p','s']:
         stmt(stream)
     return
@@ -135,7 +135,7 @@ def parse():
     from inputstream import InputStream
     stream = InputStream() # reads from stdin
     try:
-        stmtlist(stream) # start symbol
+        stmt_list(stream) # start symbol
         if stream.end_of_file():
             print("parse successful")
         else:
