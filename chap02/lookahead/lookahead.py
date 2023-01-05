@@ -34,7 +34,7 @@ def first_symbol(rule_body):
     return rule_body[0]
 
 ##################################################################
-def non_terminal_set(G):
+def nonterminal_set(G):
     nt = set()
     for r in G:
         if len(r) == 2:
@@ -46,7 +46,7 @@ def non_terminal_set(G):
 
 ##################################################################
 def terminal_set(G):
-    nt = non_terminal_set(G)
+    nt = nonterminal_set(G)
     symbols = []
     for r in G:
         if len(r) == 2:
@@ -60,7 +60,7 @@ def terminal_set(G):
 ##################################################################
 def lookahead_set(N, G):
     '''
-    Accepts: N is a non-terminal in G
+    Accepts: N is a nonterminal in G
     Accepts: G is a context-free grammar
     Returns: L is a lookahead set
     '''
@@ -70,11 +70,11 @@ def lookahead_set(N, G):
         if A == N:
             Q = first_symbol(rule_body)
             if Q == "":
-                raise ValueError("non-terminal {} is a nullable prefix"
+                raise ValueError("nonterminal {} is a nullable prefix"
                                  .format(A))
             elif Q in terminal_set(G):
                 L = L | set(Q)
-            elif Q in non_terminal_set(G):
+            elif Q in nonterminal_set(G):
                 L = L | lookahead_set(Q, G)
     return L
 
@@ -92,7 +92,7 @@ def compute_lookahead_sets(G):
             GL.append((A, set([""]), rule_body))
         elif S in terminal_set(G):
             GL.append((A, set(S), rule_body))
-        elif S in non_terminal_set(G):
+        elif S in nonterminal_set(G):
             L = lookahead_set(S,G)
             GL.append((A, L, rule_body))
     return GL
@@ -103,7 +103,7 @@ def check_dup_lookahead(GL):
     Accepts: GL is a context-free grammar extended with lookahead sets
     Returns: GL
     Throws an exception if the lookahead set for a rule
-    appears more than once for a particular non-terminal
+    appears more than once for a particular nonterminal
     '''
     nonterms = {}
     for R in GL:
@@ -115,7 +115,7 @@ def check_dup_lookahead(GL):
                 if e not in nonterms[A]:
                     nonterms[A].append(e)
                 else:
-                    raise ValueError("common prefix {} for non-terminal {}"
+                    raise ValueError("common prefix {} for nonterminal {}"
                                      .format(e,A))
     return GL
 
