@@ -4,7 +4,7 @@ from sys import stdin
 class InputStream:
     def __init__(self, char_stream=None):
         # if no stream given read it from the terminal
-        if not char_stream:
+        if char_stream == None:
             char_stream = stdin.read()
         # turn char stream into a list of characters
         # ignoring any kind of white space
