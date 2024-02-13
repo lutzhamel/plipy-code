@@ -6,6 +6,6 @@ echo "Here is the list of source code directories:"
 ls -d chap*
 
 echo " "
+echo "In order to use this code interactively start a shell window."
 echo "To navigate into a directory type something like: cd chap03"
-echo " "
 echo "To come back to this directory: cd $PWD"
