@@ -21,6 +21,10 @@ tokens = [
 
 t_ignore = ' \t'
 
+def t_COMMENT(t):
+    r'//.*'
+    pass
+
 def t_PLUS(t):
     r'\+'
     return t
@@ -53,10 +57,6 @@ def t_ID(t):
 def t_INTEGER(t):
     r'[0-9]+'
     return t
-
-def t_COMMENT(t):
-    r'//.*'
-    pass
 
 def t_NEWLINE(t):
     r'\n'
