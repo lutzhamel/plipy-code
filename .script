@@ -6,6 +6,9 @@ echo "Here is the list of source code directories:"
 ls -d chap*
 
 echo " "
-echo "In order to use this code interactively start a shell window."
-echo "To navigate into a directory type something like: cd chap03"
+echo "To make full use of this resource please fork this REPL."
+echo " "
+echo "Use the *file explorer* to look at source code."
+echo "To run the code start a *shell window* and"
+echo "navigate into a directory like so: cd chap03"
 echo "To come back to this directory: cd $PWD"
