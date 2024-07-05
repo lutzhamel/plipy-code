@@ -73,7 +73,7 @@ def lookahead_set(N, G):
                 raise ValueError("nonterminal {} is a nullable prefix"
                                  .format(A))
             elif Q in terminal_set(G):
-                L = L | set(Q)
+                L = L | set([Q])
             elif Q in nonterminal_set(G):
                 L = L | lookahead_set(Q, G)
     return L
