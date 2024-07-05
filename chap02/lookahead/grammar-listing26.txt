@@ -1,0 +1,9 @@
+[
+    ("exp", ["+", "exp", "exp"]),
+    ("exp", ["term"]),
+    ("term", ["var", "suffix"]),
+    ("suffix", ["(", "exp", ")"]),
+    ("suffix", [""]),
+    ("var", ["x"]),
+    ("var", ["y"])
+]

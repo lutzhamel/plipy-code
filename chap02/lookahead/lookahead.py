@@ -91,7 +91,7 @@ def compute_lookahead_sets(G):
         if S == "":
             GL.append((A, set([""]), rule_body))
         elif S in terminal_set(G):
-            GL.append((A, set(S), rule_body))
+            GL.append((A, set([S]), rule_body))
         elif S in nonterminal_set(G):
             L = lookahead_set(S,G)
             GL.append((A, L, rule_body))
