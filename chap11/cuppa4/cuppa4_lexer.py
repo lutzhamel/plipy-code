@@ -66,7 +66,7 @@ def tokenize(code):
         elif type == 'UNKNOWN':
             raise ValueError("unexpected character '{}'".format(value))
         tokens.append(Token(type, value))
-    tokens.append(Token('EOF', '\eof'))
+    tokens.append(Token('EOF', r'\eof'))
     return tokens
 
 class Lexer:

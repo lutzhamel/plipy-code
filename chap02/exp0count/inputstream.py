@@ -12,7 +12,7 @@ class InputStream:
                                   .replace('\t','') \
                                   .replace('\n','') 
         self.stream = [c for c in clean_stream]
-        self.stream.append('\eof')
+        self.stream.append(r'\eof')
         self.stream_ix = 0
 
     def pointer(self):
@@ -33,7 +33,7 @@ class InputStream:
                               .format(self.stream[self.stream_ix], sym))
 
     def end_of_file(self):
-        if self.pointer() == '\eof':
+        if self.pointer() == r'\eof':
             return True
         else:
             return False
